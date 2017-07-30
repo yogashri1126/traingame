@@ -98,14 +98,14 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
-     <!-- LINK TO FIREBASE GOES HERE -->
 
-    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    
 
      <!-- Link to Moment.js should go here -->
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
     <!-- Script -->
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script>
 
     // ========================================== START CODING BELOW!!
@@ -161,6 +161,7 @@
       console.log(childSnapshot.val().destination);
       console.log(childSnapshot.val().first);
       console.log(childSnapshot.val().frequency);
+
       
   dataRef.ref('/trains').on('child_added', function(snapshot){
   var data = snapshot.val();
@@ -175,6 +176,7 @@
   html = html + '<td>' + data.next + '</td>'
   html = html + '<td>' + data.delta + '</td>'
   console.log(html);
+  console.log(data);
 
   $('#table-body').append(html);
 })
