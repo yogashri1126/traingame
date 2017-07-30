@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>If Amtrak Only Knew...</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <br>
+
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1 class="text-center">Train Times</h1>
+      </div>
+
+      <div class="row">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Train Table</h3>
+            </div>
+            <div id='output' class="panel-body">
+              <table class='table table-bordered'>
+                <thead>
+                  <tr>
+                    <td>Train Name</td>
+                    <td>Destination</td>
+                    <td>Frequency</td>
+                    <td>Next Arrival</td>
+                    <td>Minutes Away</td>
+                  </tr>
+                </thead>
+                <tbody id='table-body'>
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+        <!-- Sign-Up Panel-->
+        <div class="col-lg-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Add a Train!</h3>
+            </div>
+
+            <div class="panel-body">
+
+              <!-- Sign-up Form (note the various input "types")-->
+              <form role="form">
+                <div class="form-group">
+                  <label for="name-input">Train Name:</label>
+                  <input class="form-control" id="name-input" type="text">
+                </div>
+                <div class="form-group">
+                  <label for="destination-input">Destination:</label>
+                  <input class="form-control" id="destination-input" type="text">
+                </div>
+                <div class="form-group">
+                  <label for="time-input">First Train Time (HH:mm- Military Time):</label>
+                  <input class="form-control" id="time-input" type="text" placeholder="Time">
+                </div>
+                <div class="form-group">
+                 <label for="frequency-input">Frequency (min)</label>
+                 <input class="form-control" id="frequency-input" rows="5">
+                 </div>
+                <button class="btn btn-default" id="populate" type="submit">Submit</button>
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+     <!-- LINK TO FIREBASE GOES HERE -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+
+     <!-- Link to Moment.js should go here -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- Script -->
+    <script>
+
+    // ========================================== START CODING BELOW!!
+
+   // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC0kgvpNQ7yINghhfiM0R3PPmrCLpsYQp4",
+    authDomain: "traingame-7c512.firebaseapp.com",
+    databaseURL: "https://traingame-7c512.firebaseio.com",
+    projectId: "traingame-7c512",
+    storageBucket: "",
+    messagingSenderId: "579256561492"
+  };
+  firebase.initializeApp(config);
+
+    var dataRef = firebase.database();
+
+    // Initial Values
+    var trainname = "";
+    var destination = "";
+    var first = "00:00";
+    var frequency = "";
+
+    // Capture Button Click
+    $("#populate").on("click", function(event) {
+      event.preventDefault();
+
+      // YOUR TASK!!!
+      // Code in the logic for storing and retrieving the most recent user.
+      // Don't forget to provide initial data to your Firebase database.
+      trainname = $("#name-input").val().trim();
+      destination = $("#destination-input").val().trim();
+      first = $("#time-input").val().trim();
+      frequency = $("#frequency-input").val().trim();
+
+      // Code for the push
+      dataRef.ref().push({
+
+        trainname: trainname,
+        destination: destination,
+        first: first,
+        frequency: frequency,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+      });
+    });
+
+    // Firebase watcher + initial loader HINT: This code behaves similarly to .on("value")
+    dataRef.ref().on("child_added", function(childSnapshot) {
+
+      // Log everything that's coming out of snapshot
+      console.log(childSnapshot.val().trainname);
+      console.log(childSnapshot.val().trainname);
+      console.log(childSnapshot.val().destination);
+      console.log(childSnapshot.val().first);
+      console.log(childSnapshot.val().frequency);
+      
+  dataRef.ref('/trains').on('child_added', function(snapshot){
+  var data = snapshot.val();
+  var firsttime = data.first
+  var next = Math.ceil((moment()-firsttime)/frequency)*frequency+firsttime
+  var delta= next-moment()
+  console.log(next);
+  console.log(delta);
+  var html = "<tr><td>" + data.trainname + '</td>';
+  html = html + '<td>' + data.destination + '</td>'
+  html = html + '<td>' + data.frequency + '</td>'
+  html = html + '<td>' + data.next + '</td>'
+  html = html + '<td>' + data.delta + '</td>'
+  console.log(html);
+
+  $('#table-body').append(html);
+})
+
+      // // full list of items to the well
+      // $("#full-member-list").append("<div class='well'><span id='name'> " + childSnapshot.val().name +
+      //   " </span><span id='email'> " + childSnapshot.val().email +
+      //   " </span><span id='age'> " + childSnapshot.val().age +
+      //   " </span><span id='comment'> " + childSnapshot.val().comment + " </span></div>");
+
+    // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+    });
+
+    // dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+
+    //   // Change the HTML to reflect
+    //   $("#name-display").html(snapshot.val().name);
+    //   $("#email-display").html(snapshot.val().email);
+    //   $("#age-display").html(snapshot.val().age);
+    //   $("#comment-display").html(snapshot.val().comment);
+    // });
+
+    </script>
+
+  </body>
+
+</html>
