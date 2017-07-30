@@ -162,11 +162,10 @@
       console.log(childSnapshot.val().first);
       console.log(childSnapshot.val().frequency);
 
-      
-  dataRef.ref('/trains').on('child_added', function(snapshot){
-  var data = snapshot.val();
+  var data = childSnapshot.val();
   var firsttime = data.first
-  var next = Math.ceil((moment()-firsttime)/frequency)*frequency+firsttime
+  console.log(moment().format("hh:mm"))
+  var next = Math.ceil((moment().subtract(firsttime, "minutes"))/frequency)*frequency+firsttime
   var delta= next-moment()
   console.log(next);
   console.log(delta);
@@ -179,7 +178,6 @@
   console.log(data);
 
   $('#table-body').append(html);
-})
 
       // // full list of items to the well
       // $("#full-member-list").append("<div class='well'><span id='name'> " + childSnapshot.val().name +
