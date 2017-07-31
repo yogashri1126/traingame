@@ -164,7 +164,10 @@
 
   var data = childSnapshot.val();
   var firsttime = data.first
-  console.log(moment().format("hh:mm"))
+  var now= moment().format("HH:mm")
+  console.log(now)
+  console.log(firsttime)
+  console.log(moment(firsttime).diff(now, "minutes"))
   var next = Math.ceil((moment().subtract(firsttime, "minutes"))/frequency)*frequency+firsttime
   var delta= next-moment()
   console.log(next);
