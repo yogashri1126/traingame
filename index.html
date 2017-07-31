@@ -172,6 +172,7 @@
   console.log(moment().diff(30, "minutes"))
   //My attempts here to get the difference in minutes and then add to the current moment. I wanted to convert the current time to minutes, and then have subtract the next variable from the current time
   var next = Math.ceil((moment().diff(30, "minutes"))/30)*30
+  var next2= moment().asMinutes()
   var delta= next-next2
   console.log(next);
   console.log(next2)
