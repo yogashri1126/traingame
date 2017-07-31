@@ -170,9 +170,10 @@
   var now= moment().format("HH:mm")
   console.log(now)
   console.log(firsttime)
-  console.log(moment().diff(data.frequency, "minutes"))
+  
+  console.log(moment().diff(parseInt(data.frequency), "minutes"))
   //My attempts here to get the difference in minutes and then add to the current moment. I wanted to convert the current time to minutes, and then have subtract the next variable from the current time
-  var next = Math.ceil((moment().diff(data.frequency, "minutes"))/data.frequency)*data.frequency
+  var next = Math.ceil((moment().diff(parseInt(data.frequency), "minutes"))/parseInt(data.frequency))*parseInt(data.frequency)
   var next2= Math.floor((data.dateAdded)/1000/60)
   var delta= next-next2
   console.log(next);
