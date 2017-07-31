@@ -162,16 +162,22 @@
       console.log(childSnapshot.val().first);
       console.log(childSnapshot.val().frequency);
 
+  console.log(frequency)
+  console.log(first)
   var data = childSnapshot.val();
   var firsttime = data.first
   var now= moment().format("HH:mm")
   console.log(now)
   console.log(firsttime)
-  console.log(moment(firsttime).diff(now, "minutes"))
-  var next = Math.ceil((moment().subtract(firsttime, "minutes"))/frequency)*frequency+firsttime
-  var delta= next-moment()
+  console.log(moment().diff(30, "minutes"))
+  //My attempts here to get the difference in minutes and then add to the current moment. I wanted to convert the current time to minutes, and then have subtract the next variable from the current time
+  var next = Math.ceil((moment().diff(30, "minutes"))/30)*30
+  var delta= next-next2
   console.log(next);
+  console.log(next2)
   console.log(delta);
+
+  //appending to table body
   var html = "<tr><td>" + data.trainname + '</td>';
   html = html + '<td>' + data.destination + '</td>'
   html = html + '<td>' + data.frequency + '</td>'
