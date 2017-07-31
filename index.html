@@ -180,6 +180,12 @@
   console.log(next2)
   console.log(delta);
 
+  var nextTime= moment(next2).format("HH:mm")
+  var arrival= moment().add(delta, "minutes").minutes()
+
+  console.log(nextTime)
+  console.log(arrival)
+
     //   // First Time (pushed back 1 year to make sure it comes before current time)
     // var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
     // console.log(firstTimeConverted);
@@ -208,8 +214,8 @@
   var html = "<tr><td>" + data.trainname + '</td>';
   html = html + '<td>' + data.destination + '</td>'
   html = html + '<td>' + data.frequency + '</td>'
-  html = html + '<td>' + data.next + '</td>'
-  html = html + '<td>' + data.delta + '</td>'
+  html = html + '<td>' + nextTime + '</td>'
+  html = html + '<td>' + arrival + '</td>'
   console.log(html);
   console.log(data);
 
