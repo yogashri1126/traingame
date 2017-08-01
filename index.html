@@ -104,8 +104,12 @@
      <!-- Link to Moment.js should go here -->
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
+   <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+
+
+
     <!-- Script -->
-    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   
     <script>
 
     // ========================================== START CODING BELOW!!
@@ -162,18 +166,27 @@
       console.log(childSnapshot.val().first);
       console.log(childSnapshot.val().frequency);
 
+  //Storing childSnapshot variables
   var tName= childSnapshot.val().trainname
   var tDestination= childSnapshot.val().destination
   var tFirst= childSnapshot.val().first
   var tFreq= childSnapshot.val().frequency
 
+  //find difference at which the time was entered versus current moment
+
   var differenceTimes = moment().diff(moment(tFirst, "HH:mm").unix(), "minutes");
+
+  //Determine the time needed to find the time away from the frequency
   var tRemainder = moment().diff(moment(tFirst, "HH:mm").unix(), "minutes") % tFreq;
   console.log(moment(tFirst, "HH:mm").unix())
   console.log(tRemainder)
   console.log(tFirst)
   console.log(differenceTimes)
+
+  //Determine the increment for the next arrival tie
   var tMinutes = tFreq - tRemainder;
+
+  //Determine arrival time
   var tArrival = moment().add(tMinutes, "m").format("HH:mm");
   console.log(first)
   var data = childSnapshot.val();
@@ -260,6 +273,8 @@
     // });
 
     </script>
+
+
 
   </body>
 
