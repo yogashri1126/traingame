@@ -162,7 +162,19 @@
       console.log(childSnapshot.val().first);
       console.log(childSnapshot.val().frequency);
 
-  
+  var tName= childSnapshot.val().trainname
+  var tDestination= childSnapshot.val().destination
+  var tFirst= childSnapshot.val().first
+  var tFreq= childSnapshot.val().frequency
+
+  var differenceTimes = moment().diff(moment(tFirst, "HH:mm").unix(), "minutes");
+  var tRemainder = moment().diff(moment(tFirst, "HH:mm").unix(), "minutes") % tFreq;
+  console.log(moment(tFirst, "HH:mm").unix())
+  console.log(tRemainder)
+  console.log(tFirst)
+  console.log(differenceTimes)
+  var tMinutes = tFreq - tRemainder;
+  var tArrival = moment().add(tMinutes, "m").format("HH:mm");
   console.log(first)
   var data = childSnapshot.val();
   console.log(data.frequency)
@@ -170,21 +182,27 @@
   var now= moment().format("HH:mm")
   console.log(now)
   console.log(firsttime)
+
+  console.log(tMinutes);
+  console.log(tArrival);
+  console.log(moment().format("hh:mm A"));
+  console.log(tArrival);
+  console.log(moment().format("X"));
   
   console.log(moment().diff(parseInt(data.frequency), "minutes"))
   //My attempts here to get the difference in minutes and then add to the current moment. I wanted to convert the current time to minutes, and then have subtract the next variable from the current time
-  var next = Math.ceil((moment().diff(parseInt(data.frequency), "minutes"))/parseInt(data.frequency))*parseInt(data.frequency)
-  var next2= Math.floor((data.dateAdded)/1000/60)
-  var delta= next-next2
-  console.log(next);
-  console.log(next2)
-  console.log(delta);
+  // var next = Math.ceil((moment().diff(parseInt(data.frequency), "minutes"))/parseInt(data.frequency))*parseInt(data.frequency)
+  // var next2= Math.floor((data.dateAdded)/1000/60)
+  // var delta= next-next2
+  // console.log(next);
+  // console.log(next2)
+  // console.log(delta);
 
-  var nextTime= moment(next2).format("HH:mm")
-  var arrival= moment().add(delta, "minutes").minutes()
+  // var nextTime= moment(next2).format("HH:mm")
+  // var arrival= moment().add(delta, "minutes").minutes()
 
-  console.log(nextTime)
-  console.log(arrival)
+  // console.log(nextTime)
+  // console.log(arrival)
 
     //   // First Time (pushed back 1 year to make sure it comes before current time)
     // var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
@@ -214,8 +232,8 @@
   var html = "<tr><td>" + data.trainname + '</td>';
   html = html + '<td>' + data.destination + '</td>'
   html = html + '<td>' + data.frequency + '</td>'
-  html = html + '<td>' + nextTime + '</td>'
-  html = html + '<td>' + arrival + '</td>'
+  html = html + '<td>' + tArrival + '</td>'
+  html = html + '<td>' + tMinutes + '</td>'
   console.log(html);
   console.log(data);
 
